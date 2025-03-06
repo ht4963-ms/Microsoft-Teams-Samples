@@ -15,8 +15,10 @@ const SecondCachedTab = React.memo((props: {entityId: string}) => {
     
     React.useEffect(()=>{
         if (isSupportedView) {
+            setTimeout(() => {
             console.log(">>>SecondCachedTab sending notifySuccess");
-          app.notifySuccess();
+            app.notifySuccess();
+            }, 100);
         }
       }, [isSupportedView]);
        return isSupportedView ? (

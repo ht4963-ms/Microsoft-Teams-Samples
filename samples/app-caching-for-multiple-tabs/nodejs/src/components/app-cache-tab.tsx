@@ -73,8 +73,11 @@ const AppCacheTab = React.memo((props: {entityId: string}) => {
                             return setAppTheme('theme-dark');
                     }
                 });
-                console.log(">>>FirstCachedTab sending notifySuccess");
-                app.notifySuccess();
+
+                setTimeout(() => {
+                    console.log(">>>FirstCachedTab sending notifySuccess");
+                    app.notifySuccess();
+                }, 100);
                 setDisplayLogs((displayLogs) => [...displayLogs, appendLog(`Tab ${entityId} mounted`, entityId)]);
             });
         }
