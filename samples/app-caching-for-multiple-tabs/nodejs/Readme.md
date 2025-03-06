@@ -99,7 +99,7 @@ The simplest way to run this sample in Teams is to use Teams Toolkit for Visual 
 
 ![App-Cache](Images/3.TabBlueInChannel.png)
 Click between the two tabs and observer the fast app load. The displayed log shows that the same app is cached and being reused for the two tabs. 
- 
+
 
 > Note open debug panel **Proto Task Manager** ( `Ctrl+Shift+Alt+8` on Windows, `Cmd+Shift+Option+8` on Mac), navigate to App Caching section you should see these apps getting cached/loaded. Non-cacheable apps will not appear in this panel.
 

@@ -3,10 +3,11 @@
 // Licensed under the MIT license.
 // </copyright>
 
-import { useState } from "react";
-import React from "react";
+import * as React from "react";
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../components/index.css";
+
+const supportedTabEntities = ["red", "green", "blue", "yellow"];
 
 /// </summary>
 ///  appendLog to show the activity log
@@ -35,15 +36,16 @@ const AppCacheTabInner = (props: {entityId: string, displayLogs: string[], appTh
     );
 };
 
-const AppCacheTab = (props: {entityId: string}) => {
+const AppCacheTab = React.memo((props: {entityId: string}) => {
 
     const {entityId} = props;
-    const [displayLogs, setDisplayLogs] = useState<string[]>([]);
-    const [appTheme, setAppTheme] = useState('theme-light');
+    const [displayLogs, setDisplayLogs] = React.useState<string[]>([]);
+    const [appTheme, setAppTheme] = React.useState('theme-light');
+    const isSupportedView = React.useMemo(() => supportedTabEntities.includes(entityId), [entityId]);
 
     React.useEffect(() => {
         const app = microsoftTeams.app;
-        if (entityId) {
+        if (entityId && isSupportedView) {
             app.getContext().then((context: any) => {
                 // Get default theme from app context and set app-theme
                 let defaultTheme = context.app.theme;
@@ -71,7 +73,7 @@ const AppCacheTab = (props: {entityId: string}) => {
                             return setAppTheme('theme-dark');
                     }
                 });
-
+                console.log(">>>FirstCachedTab sending notifySuccess");
                 app.notifySuccess();
                 setDisplayLogs((displayLogs) => [...displayLogs, appendLog(`Tab ${entityId} mounted`, entityId)]);
             });
@@ -83,9 +85,9 @@ const AppCacheTab = (props: {entityId: string}) => {
                 setDisplayLogs((displayLogs) => [...displayLogs, appendLog(`Tab ${entityId} unmounted`, entityId, true)]);
             }
         }
-    }, [entityId]);
+    }, [entityId, isSupportedView]);
 
-    return appTheme && entityId ? <AppCacheTabInner entityId={entityId} displayLogs={displayLogs} appTheme={appTheme} /> : <div className="loading" />;
-};
+    return appTheme && entityId && isSupportedView? <AppCacheTabInner entityId={entityId} displayLogs={displayLogs} appTheme={appTheme} /> : <div className="loading" />;
+});
 
 export default AppCacheTab;

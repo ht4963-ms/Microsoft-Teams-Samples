@@ -3,28 +3,38 @@
 // Licensed under the MIT license.
 // </copyright>
 
-import { useEffect, useState } from "react";
+import * as React from "react";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 // Configure page.
-const Configure = props => {
-    const [ entity, setEntity] = useState("");
+const Configure = React.memo(() => {
+    const [ entity, setEntity] = React.useState("");
 
     const updateSelection = (event) => {
         const selectedValue = event.target.value;
         if (selectedValue) {
             setEntity(selectedValue);
-            microsoftTeams.pages.config.setConfig({
-                entityId: selectedValue,
-                contentUrl: `${window.location.origin}/appCacheTab?entityId=${selectedValue}`,
-                suggestedDisplayName: `${selectedValue}-Tab`,
-                websiteUrl: `${window.location.origin}/appCacheTab?entityId=${selectedValue}`,
-            });
+            if (selectedValue === "second") {
+                microsoftTeams.pages.config.setConfig({
+                    entityId: selectedValue,
+                    contentUrl: `${window.location.origin}/appCacheTab2?entityId=${selectedValue}`,
+                    suggestedDisplayName: `${selectedValue}-Tab`,
+                    websiteUrl: `${window.location.origin}/x?entityId=${selectedValue}`,
+                });
+            } else {
+                microsoftTeams.pages.config.setConfig({
+                    entityId: selectedValue,
+                    contentUrl: `${window.location.origin}/appCacheTab?entityId=${selectedValue}`,
+                    suggestedDisplayName: `${selectedValue}-Tab`,
+                    websiteUrl: `${window.location.origin}/appCacheTab?entityId=${selectedValue}`,
+                });
+            }
+
             microsoftTeams.pages.config.setValidityState(true);
         }
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         microsoftTeams.app.initialize().then(() => {
             microsoftTeams.app.notifySuccess();
 
@@ -42,10 +52,11 @@ const Configure = props => {
                 <option value="green">Green</option>
                 <option value="blue">Blue</option>
                 <option value="yellow">Yellow</option>
+                <option value="second">Page 2</option>
             </select>
             <p>Please click save button to proceed.</p>
         </div>
     );
-};
+});
 
 export default Configure;
