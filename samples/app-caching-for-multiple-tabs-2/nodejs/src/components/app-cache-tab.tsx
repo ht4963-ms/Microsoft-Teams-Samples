@@ -7,7 +7,7 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import "./index.css";
 import { app } from "@microsoft/teams-js";
-import { loadNewEntityData } from "./utils";
+import { loadNewEntityData, reportDocumentDimensions } from "./utils";
 
 export const AppCacheTab1 = () => {
 
@@ -26,6 +26,7 @@ export const AppCacheTab1 = () => {
     React.useEffect(() => {
         console.log(`Page 1 sending notifySuccess`);
         app.notifySuccess();
+        reportDocumentDimensions();
     }, []);
     
     return (

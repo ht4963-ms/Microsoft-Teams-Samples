@@ -9,3 +9,10 @@ export const loadNewEntityData = (entityId: string, setLoading: React.Dispatch<R
         setLoading(false);
     }, delay);
 };
+
+export const reportDocumentDimensions = () => {
+    const documentWidth = document.documentElement.clientWidth;
+    const bodyWidth = document.body.clientWidth;
+    const windowWidth = window.innerWidth;
+    console.log(`>>>>>>>***** App reports Document Width: ${documentWidth}, Body Width: ${bodyWidth}, Window Width: ${windowWidth}`);
+}

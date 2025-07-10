@@ -11,6 +11,7 @@ import Configure from "../components/configure";
 import { AppCacheTab1 } from "../components/app-cache-tab";
 import { AppCacheTab2 } from "../components/app-cache-tab-2";
 import Index from "../components/index";
+import { reportDocumentDimensions } from "../components/utils";
 
 const AppContent = () => {
     const [appInitialized, setAppInitialized] = React.useState(false);
@@ -51,24 +52,33 @@ const AppContent = () => {
             });
 
             microsoftTeams.teamsCore.registerBeforeUnloadHandler((readyToUnload: any) => {
+                console.log(`>>>>>>> app is unloading`);
+                reportDocumentDimensions();
                 readyToUnload();
                 return true;
             });
 
             microsoftTeams.teamsCore.registerOnLoadHandler((data: any) => {
                 console.log(data.contentUrl, data.entityId);
+                console.log(`>>>>>>>***** App onLoad handler called`);
+                reportDocumentDimensions();
                 if (data.entityId && data.contentUrl) {
                     const path = `${new URL(data.contentUrl).pathname}`;
                     if (path !== location.pathname) {
-                        console.log(`Navigating to ${path} for entityId ${data.entityId}`);
+                        console.log(`>>>>>>>***** Navigating to ${path} for entityId ${data.entityId}`);
                         if (navigate) {
                             navigate(`${new URL(data.contentUrl).pathname}`);
                         } else {
                             console.error(`navigate is undefined--cannot navigate to page.`);
                         }
                     } else {
-                        console.log(`Already on the correct page: ${data.contentUrl}`);
+                        console.log(`>>>>>>>***** Already on the correct page: ${data.contentUrl}. Sending notifySuccess.`);
                         microsoftTeams.app.notifySuccess();
+                        reportDocumentDimensions();
+                        setTimeout(() => {
+                            console.log(`>>>>>>>***** Reporting document dimensions after 2 seconds`);
+                            reportDocumentDimensions();
+                        }, 2000);
                     }
                 }
             });
@@ -94,6 +104,7 @@ const AppContent = () => {
                     <Route path="/configure" element={<Configure />}/>
                     <Route path="/page1/:entityId" element={<AppCacheTab1 />}/>
                     <Route path="/page2/:entityId" element={<AppCacheTab2 />}/>
+                    <Route path="/personal" element={<AppCacheTab1 />}/>
                 </Routes>) : null
             }
         </React.Fragment>

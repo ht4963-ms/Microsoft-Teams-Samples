@@ -24,7 +24,7 @@
   "accentColor": "#FFFFFF",
   "configurableTabs": [
     {
-      "configurationUrl": "https://2ae2c6a5d541.ngrok.app/configure",
+      "configurationUrl": "https://ht-test-tab-app-local.ngrok.io/configure",
       "canUpdateConfiguration": true,
       "scopes": ["groupChat", "team"],
       "context": [
@@ -37,7 +37,16 @@
       ]
     }
   ],
-  "validDomains": ["2ae2c6a5d541.ngrok.app"],
+  "staticTabs": [
+    {
+      "entityId": "home",
+      "name": "Home",
+      "contentUrl": "https://ht-test-tab-app-local.ngrok.io/personal",
+      "websiteUrl": "https://ht-test-tab-app-local.ngrok.io/personal",
+      "scopes": ["personal"]
+    }
+  ],
+  "validDomains": ["ht-test-tab-app-local.ngrok.io"],
   "showLoadingIndicator": true
 }
 
