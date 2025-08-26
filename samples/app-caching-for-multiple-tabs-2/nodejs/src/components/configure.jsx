@@ -9,15 +9,15 @@ import * as microsoftTeams from "@microsoft/teams-js";
 // Configure page.
 const Configure = () => {
     const [selectedPage, setSelectedPage] = useState("page1");
-    const [entityId, setEntityId] = useState("");
+    const [threadId, setThreadId] = useState("");
 
     useEffect(() => {
-        if (entityId && selectedPage) {
+        if (threadId && selectedPage) {
             microsoftTeams.pages.config.registerOnSaveHandler(function (saveEvent) {
-                const contentUrl = `${window.location.origin}/${selectedPage}/${entityId}`;
+                const contentUrl = `${window.location.origin}/${selectedPage}/${threadId}`;
                 console.log(`Adding tab with URL: ${contentUrl}`);
                 microsoftTeams.pages.config.setConfig({
-                    entityId,
+                    entityId: JSON.stringify({ threadId, page: selectedPage }),
                     contentUrl,
                     suggestedDisplayName: selectedPage,
                     websiteUrl: contentUrl,
@@ -26,14 +26,14 @@ const Configure = () => {
             });
             microsoftTeams.pages.config.setValidityState(true);
         }
-    }, [entityId, selectedPage]);
+    }, [threadId, selectedPage]);
 
     useEffect(() => {
         microsoftTeams.app.initialize().then(() => {
             microsoftTeams.app.getContext().then((context) => {
-                const contextEntityId = context.channel?.id || context.chat?.id;
-                if (contextEntityId) {
-                    setEntityId(contextEntityId);
+                const contextThreadId = context.channel?.id || context.chat?.id;
+                if (contextThreadId) {
+                    setThreadId(contextThreadId);
                     microsoftTeams.app.notifySuccess();
                 } else {
                     microsoftTeams.app.notifyFailure("Unable to retrieve channel or chat ID.");

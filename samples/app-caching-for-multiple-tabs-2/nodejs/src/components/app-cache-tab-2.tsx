@@ -35,6 +35,7 @@ export const AppCacheTab2 = () => {
                     <div>
                         <h2>Page 2</h2>
                         <h3>Entity ID: {entityId}</h3>
+                        <a style={{ color: 'red' }} href="msteams:l/entity/08bfc10d-63b9-441c-a845-2b49fac088e5/_djb2_msteams_prefix_709515409?context=%7B%22channelId%22%3A%2219%3AM1RbJSJ7bH7oJYsNbrWZsOId2TYeM8acYK9Sr06lKT41%40thread.tacv2%22%7D&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47">Page 1</a>
                     </div>
                 )
             }

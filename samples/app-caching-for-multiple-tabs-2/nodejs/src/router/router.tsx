@@ -63,9 +63,10 @@ const AppContent = () => {
                 console.log(`>>>>>>>***** App onLoad handler called`);
                 reportDocumentDimensions();
                 if (data.entityId && data.contentUrl) {
+                    const entity = JSON.parse(data.entityId);
                     const path = `${new URL(data.contentUrl).pathname}`;
                     if (path !== location.pathname) {
-                        console.log(`>>>>>>>***** Navigating to ${path} for entityId ${data.entityId}`);
+                        console.log(`>>>>>>>***** Navigating to ${path} for threadId ${entity.threadId}`);
                         if (navigate) {
                             navigate(`${new URL(data.contentUrl).pathname}`);
                         } else {
